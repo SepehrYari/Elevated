@@ -8,16 +8,41 @@ public class CrankFunction : MonoBehaviour
     public float clickDurationThreshold = 0.5f; // Adjust the threshold as needed
     private float clickStartTime = 0f;
     private bool isMouseButtonDown = false;
+    public float crankMeterHealth = 100f; // meter's hp. set to 100
+    public bool isAlive = true;
+    public float bleed = 1; // damage inflicted on meter bar
+
+    //passively reduces health by value "bleed"
+    void depleteCrankHealth()
+    {
+        while (isAlive == true)
+        {
+            crankMeterHealth = crankMeterHealth - bleed;
+            Debug.Log("Crank Meter Health: " + crankMeterHealth.ToString());
+        }
+    }
+    //checks if player is still alive
+    void checkCrankHealth()
+    {
+        if (crankMeterHealth == 0)
+        {
+            isAlive = false;
+            Debug.Log("Life Meter has reached: " + crankMeterHealth.ToString() + ".  Life status has been set to false");
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        checkCrankHealth();
+        depleteCrankHealth();
+
         if (Input.GetMouseButtonDown(0))
         {
             isMouseButtonDown = true;
