@@ -5,11 +5,6 @@ using UnityEngine;
 public class CameraMove : MonoBehaviour
 {
 
-    public Transform FrontView;
-    public Transform LeftView;
-    public Transform RightView;
-    public Transform TopView;
-
     public Transform[] positions;
     public float moveSpeed = 5f;
     private int currentPositionIndex = 0;
