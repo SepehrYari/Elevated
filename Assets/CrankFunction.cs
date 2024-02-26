@@ -8,40 +8,44 @@ public class CrankFunction : MonoBehaviour
     public float clickDurationThreshold = 0.5f; // Adjust the threshold as needed
     private float clickStartTime = 0f;
     private bool isMouseButtonDown = false;
-    public float crankMeterHealth = 100f; // meter's hp. set to 100
-    public bool isAlive = true;
-    public float bleed = 1; // damage inflicted on meter bar
 
-    //passively reduces health by value "bleed"
-    void depleteCrankHealth()
-    {
-        while (isAlive == true)
-        {
-            crankMeterHealth = crankMeterHealth - bleed;
-            Debug.Log("Crank Meter Health: " + crankMeterHealth.ToString());
-        }
-    }
-    //checks if player is still alive
-    void checkCrankHealth()
-    {
-        if (crankMeterHealth == 0)
-        {
-            isAlive = false;
-            Debug.Log("Life Meter has reached: " + crankMeterHealth.ToString() + ".  Life status has been set to false");
-        }
-    }
+    //Jamison's variables
+    public float crankHealth = 100f;
+    public float bleedDamage = 1f;
+    public float bleedRate = 3f;
+    public bool bleedEnabled = true;
+    public bool zeroHealth = false;
+
+    //Jamison learns coroutine
+    
 
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        checkCrankHealth();
-        depleteCrankHealth();
+
+        // while bleed is enabled, meaning aslong as health is greater than 0, you will take bleed damage consistently. 
+        if (bleedEnabled)
+        {
+            if (Time.deltaTime % bleedRate == 0) //checks if bleed is happening every 3 seconds
+            {
+                crankHealth = crankHealth - bleedDamage;
+                Debug.Log("variable CrankHealth has been set to :" + crankHealth.ToString());
+            }
+        }
+
+        //turns off bleed when health = 0
+        if (crankHealth == 0)
+        {
+            bleedEnabled = false;
+            zeroHealth = true;
+            Debug.Log("bools: bleedEnabled and zeroHealth have been set to " + bleedEnabled + "and " + zeroHealth + " respectivly.");
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
